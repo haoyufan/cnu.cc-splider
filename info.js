@@ -4,13 +4,14 @@ const cheerio = require("cheerio");
 const { mapLimit } = require("async");
 const path = require("path");
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
-
+let id = process.argv[2] || "";
 let data = path.join(__dirname, `./data`);
 if (!fs.existsSync(data)) {
   fs.mkdirSync(data);
 }
 let host = "http://www.cnu.cc";
 function getPic(id, callback = () => {}) {
+  if(!id)return false
   console.log(`开始抓取id: ${id}`)
   let uri = `${host}/works/${id}`;
   superagent.get(uri).then((res) => {
@@ -54,6 +55,5 @@ function copy(form, to, callback) {
     callback();
   });
 }
-
-// getPic(id);
+getPic()
 module.exports = getPic
